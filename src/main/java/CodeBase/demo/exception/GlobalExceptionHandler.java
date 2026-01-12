@@ -1,0 +1,48 @@
+package CodeBase.demo.exception;
+
+import java.time.LocalDateTime;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ProductNotFound.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(ProductNotFound ex) {
+        return buildError(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(ResourceNotFound.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFound ex) {
+        return buildError(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+    
+    @ExceptionHandler(BookingConflictException.class)
+    public ResponseEntity<ErrorResponse> handleBookingConflict(BookingConflictException ex) {
+        return buildError(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
+        String message = ex.getBindingResult()
+                .getFieldErrors()
+                .getFirst()
+                .getDefaultMessage();
+
+        return buildError(HttpStatus.BAD_REQUEST, message);
+    }
+
+    private ResponseEntity<ErrorResponse> buildError(HttpStatus status, String message) {
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                status.value(),
+                status.name(),
+                message,
+                "" // Path can be injected or handled differently
+        );
+        return ResponseEntity.status(status).body(error);
+    }
+}
