@@ -15,8 +15,8 @@ public class GlobalExceptionHandler {
         return buildError(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(ResourceNotFound.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFound ex) {
+    @ExceptionHandler(FieldNotFound.class)
+    public ResponseEntity<ErrorResponse> handleFieldNotFound(FieldNotFound ex) {
         return buildError(HttpStatus.NOT_FOUND, ex.getMessage());
     }
     

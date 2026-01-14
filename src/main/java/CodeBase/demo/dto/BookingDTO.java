@@ -26,8 +26,8 @@ public class BookingDTO {
     @NotNull(message = "La fecha de fin es obligatoria")
     private LocalDateTime endTime;
 
-    @NotNull(message = "El ID del recurso es obligatorio")
-    private Long resourceId;
+    @NotNull(message = "El ID de la cancha es obligatorio")
+    private Long fieldId;
 
     @NotBlank(message = "El nombre del cliente es obligatorio")
     private String customerName;

@@ -27,7 +27,7 @@ public class Booking extends BaseEntity {
     private LocalDateTime endTime;
     
     @ManyToOne
-    private Resource resource;
+    private Field field;
     
     private String customerName;
     private String status; // e.g., "CONFIRMED", "CANCELLED"

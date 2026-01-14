@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     
     // Validar superposición de reservas
-    // SELECT * FROM bookings WHERE resource_id = ? AND start_time < ? AND end_time > ?
-    List<Booking> findByResourceIdAndStartTimeBeforeAndEndTimeAfter(
-        Long resourceId, LocalDateTime endTime, LocalDateTime startTime
+    // SELECT * FROM bookings WHERE field_id = ? AND start_time < ? AND end_time > ?
+    List<Booking> findByFieldIdAndStartTimeBeforeAndEndTimeAfter(
+        Long fieldId, LocalDateTime endTime, LocalDateTime startTime
     );
 }
