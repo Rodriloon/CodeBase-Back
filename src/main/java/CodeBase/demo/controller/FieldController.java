@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/fields")
+@CrossOrigin(origins = "*") // Permite peticiones desde cualquier origen (Frontend)
 public class FieldController {
     
     private final FieldService fieldService;

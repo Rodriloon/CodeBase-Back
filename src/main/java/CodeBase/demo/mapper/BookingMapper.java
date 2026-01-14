@@ -2,19 +2,19 @@ package CodeBase.demo.mapper;
 
 import CodeBase.demo.dto.BookingDTO;
 import CodeBase.demo.model.Booking;
-import CodeBase.demo.model.Resource;
+import CodeBase.demo.model.Field;
 
 public class BookingMapper {
 
     private BookingMapper() {}
 
-    public static Booking toEntity(BookingDTO dto, Resource resource) {
+    public static Booking toEntity(BookingDTO dto, Field field) {
         return Booking.builder()
                 .startTime(dto.getStartTime())
                 .endTime(dto.getEndTime())
                 .customerName(dto.getCustomerName())
                 .status(dto.getStatus())
-                .resource(resource)
+                .field(field)
                 .build();
     }
 
@@ -23,7 +23,7 @@ public class BookingMapper {
                 .id(entity.getId())
                 .startTime(entity.getStartTime())
                 .endTime(entity.getEndTime())
-                .resourceId(entity.getResource() != null ? entity.getResource().getId() : null)
+                .fieldId(entity.getField() != null ? entity.getField().getId() : null)
                 .customerName(entity.getCustomerName())
                 .status(entity.getStatus())
                 .build();

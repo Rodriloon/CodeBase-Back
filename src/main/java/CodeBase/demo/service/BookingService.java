@@ -2,13 +2,13 @@ package CodeBase.demo.service;
 
 import CodeBase.demo.dto.BookingDTO;
 import CodeBase.demo.exception.BookingConflictException;
-import CodeBase.demo.exception.ResourceNotFound;
 import CodeBase.demo.mapper.BookingMapper;
 import CodeBase.demo.model.Booking;
-import CodeBase.demo.model.Resource;
+import CodeBase.demo.model.Field;
 import CodeBase.demo.repository.BookingRepository;
-import CodeBase.demo.repository.ResourceRepository;
+import CodeBase.demo.repository.FieldRepository;
 import java.util.List;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
-    private final ResourceRepository resourceRepository;
+    private final FieldRepository fieldRepository;
 
-    public BookingService(BookingRepository bookingRepository, ResourceRepository resourceRepository) {
+    public BookingService(BookingRepository bookingRepository, FieldRepository fieldRepository) {
         this.bookingRepository = bookingRepository;
-        this.resourceRepository = resourceRepository;
+        this.fieldRepository = fieldRepository;
     }
 
     public List<Booking> getAllBookings() {
@@ -29,25 +29,23 @@ public class BookingService {
 
     public Booking getBooking(Long id) {
         return bookingRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFound("Reserva con id " + id + " no encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Reserva con id " + id + " no encontrada"));
     }
 
     @Transactional
     public Booking create(BookingDTO bookingDTO) {
-        Resource resource = resourceRepository.findById(bookingDTO.getResourceId())
-                .orElseThrow(() -> new ResourceNotFound(bookingDTO.getResourceId()));
+        Field field = fieldRepository.findById(bookingDTO.getFieldId())
+                .orElseThrow(() -> new EntityNotFoundException("Cancha con id " + bookingDTO.getFieldId() + " no encontrada"));
 
         // Verificar disponibilidad
-        // Si hay alguna reserva que empiece antes de que termine esta Y termine después de que empiece esta
-        List<Booking> conflictingBookings = bookingRepository.findByResourceIdAndStartTimeBeforeAndEndTimeAfter(
-                resource.getId(), bookingDTO.getEndTime(), bookingDTO.getStartTime());
+        List<Booking> conflictingBookings = bookingRepository.findByFieldIdAndStartTimeBeforeAndEndTimeAfter(
+                field.getId(), bookingDTO.getEndTime(), bookingDTO.getStartTime());
 
         if (!conflictingBookings.isEmpty()) {
-            throw new BookingConflictException("El recurso no está disponible en el horario seleccionado");
+            throw new BookingConflictException("La cancha no está disponible en el horario seleccionado");
         }
 
-        Booking booking = BookingMapper.toEntity(bookingDTO, resource);
-        // Default status if null
+        Booking booking = BookingMapper.toEntity(bookingDTO, field);
         if (booking.getStatus() == null) {
             booking.setStatus("CONFIRMED");
         }
