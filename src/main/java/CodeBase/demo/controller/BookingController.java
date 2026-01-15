@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/bookings")
+@CrossOrigin(origins = "*")
 public class BookingController {
     
     private final BookingService bookingService;
@@ -23,6 +24,14 @@ public class BookingController {
     @GetMapping
     public ResponseEntity<List<BookingDTO>> getAllBookings() {
         List<BookingDTO> bookings = bookingService.getAllBookings().stream()
+                .map(BookingMapper::toDto)
+                .toList();
+        return ResponseEntity.ok(bookings);
+    }
+    
+    @GetMapping("/field/{fieldId}")
+    public ResponseEntity<List<BookingDTO>> getBookingsByField(@PathVariable Long fieldId) {
+        List<BookingDTO> bookings = bookingService.getBookingsByField(fieldId).stream()
                 .map(BookingMapper::toDto)
                 .toList();
         return ResponseEntity.ok(bookings);

@@ -27,6 +27,10 @@ public class BookingService {
         return bookingRepository.findAll();
     }
 
+    public List<Booking> getBookingsByField(Long fieldId) {
+        return bookingRepository.findByFieldId(fieldId);
+    }
+
     public Booking getBooking(Long id) {
         return bookingRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Reserva con id " + id + " no encontrada"));

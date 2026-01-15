@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     
+    List<Booking> findByFieldId(Long fieldId);
+
     // Validar superposición de reservas
     // SELECT * FROM bookings WHERE field_id = ? AND start_time < ? AND end_time > ?
     List<Booking> findByFieldIdAndStartTimeBeforeAndEndTimeAfter(
