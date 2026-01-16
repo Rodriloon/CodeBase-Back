@@ -10,19 +10,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ProductNotFound.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(ProductNotFound ex) {
-        return buildError(HttpStatus.NOT_FOUND, ex.getMessage());
-    }
 
     @ExceptionHandler(FieldNotFound.class)
     public ResponseEntity<ErrorResponse> handleFieldNotFound(FieldNotFound ex) {
         return buildError(HttpStatus.NOT_FOUND, ex.getMessage());
     }
-    
-    @ExceptionHandler(BookingConflictException.class)
-    public ResponseEntity<ErrorResponse> handleBookingConflict(BookingConflictException ex) {
-        return buildError(HttpStatus.CONFLICT, ex.getMessage());
+
+    @ExceptionHandler(ComplexNotFound.class)
+    public ResponseEntity<ErrorResponse> handleComplexNotFound(ComplexNotFound ex) {
+        return buildError(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -2,8 +2,10 @@ package CodeBase.demo.service;
 
 import CodeBase.demo.exception.FieldNotFound;
 import CodeBase.demo.model.Field;
-import CodeBase.demo.repository.FieldRepository;
+
 import java.util.List;
+
+import CodeBase.demo.repository.FieldRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,8 +22,7 @@ public class FieldService {
     }
 
     public Field getField(Long id) {
-        return fieldRepository.findById(id)
-                .orElseThrow(() -> new FieldNotFound(id));
+        return fieldRepository.findById(id).orElseThrow(() -> new FieldNotFound(id));
     }
 
     public Field create(Field field) {

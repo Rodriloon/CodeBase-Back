@@ -1,9 +1,6 @@
 package CodeBase.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,20 +19,26 @@ import org.hibernate.annotations.SQLRestriction;
 @SQLDelete(sql = "UPDATE fields SET deleted = true WHERE id=?")
 @SQLRestriction("deleted = false")
 public class Field extends BaseEntity {
-    
-    private String name; // e.g., "Cancha 1", "El Estadio"
+
+    @ManyToOne
+    @JoinColumn(name = "complex_id", nullable = false)
+    private Complex complex;
+
+    private String name;
     private String description;
-    
-    // Atributos específicos de Fútbol
     private Integer capacity; // 5, 7, 9, 11
-    
+    private boolean isIndoor;
     @Enumerated(EnumType.STRING)
-    private SurfaceType surface; // SINTETICO, ALFOMBRA, CESPED
-    
-    private boolean isIndoor; // Techada
-    
-    private String status; // AVAILABLE, MAINTENANCE
-    
+    private FieldStatus status;
+
+    public enum FieldStatus {
+        AVAILABLE,
+        MAINTENANCE
+    }
+
+    @Enumerated(EnumType.STRING)
+    private SurfaceType surface;
+
     public enum SurfaceType {
         SYNTHETIC_GRASS,
         NATURAL_GRASS,

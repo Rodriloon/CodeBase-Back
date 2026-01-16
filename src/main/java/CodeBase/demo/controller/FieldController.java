@@ -1,6 +1,7 @@
 package CodeBase.demo.controller;
 
-import CodeBase.demo.dto.FieldDTO;
+import CodeBase.demo.dto.field.FieldDTO;
+import CodeBase.demo.dto.field.FieldResponseDTO;
 import CodeBase.demo.mapper.FieldMapper;
 import CodeBase.demo.model.Field;
 import CodeBase.demo.service.FieldService;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/fields")
-@CrossOrigin(origins = "*") // Permite peticiones desde cualquier origen (Frontend)
+@CrossOrigin(origins = "*")
 public class FieldController {
     
     private final FieldService fieldService;
@@ -22,28 +23,28 @@ public class FieldController {
     }
 
     @GetMapping
-    public ResponseEntity<List<FieldDTO>> getAllFields() {
-        List<FieldDTO> fields = fieldService.getAllFields().stream()
+    public ResponseEntity<List<FieldResponseDTO>> getAllFields() {
+        List<FieldResponseDTO> fields = fieldService.getAllFields().stream()
                 .map(FieldMapper::toDto)
                 .toList();
         return ResponseEntity.ok(fields);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FieldDTO> getField(@PathVariable Long id) {
-        FieldDTO field = FieldMapper.toDto(fieldService.getField(id));
+    public ResponseEntity<FieldResponseDTO> getField(@PathVariable Long id) {
+        FieldResponseDTO field = FieldMapper.toDto(fieldService.getField(id));
         return ResponseEntity.ok(field);
     }
 
     @PostMapping
-    public ResponseEntity<FieldDTO> create(@Valid @RequestBody FieldDTO dto) {
+    public ResponseEntity<FieldResponseDTO> create(@Valid @RequestBody FieldDTO dto) {
         Field field = FieldMapper.toEntity(dto);
         Field saved = fieldService.create(field);
         return ResponseEntity.status(HttpStatus.CREATED).body(FieldMapper.toDto(saved));
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<FieldDTO> update(@PathVariable Long id, @Valid @RequestBody FieldDTO dto) {
+    public ResponseEntity<FieldResponseDTO> update(@PathVariable Long id, @Valid @RequestBody FieldDTO dto) {
         Field field = FieldMapper.toEntity(dto);
         Field updated = fieldService.update(id, field);
         return ResponseEntity.ok(FieldMapper.toDto(updated));

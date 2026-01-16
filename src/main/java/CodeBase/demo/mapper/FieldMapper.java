@@ -1,6 +1,7 @@
 package CodeBase.demo.mapper;
 
-import CodeBase.demo.dto.FieldDTO;
+import CodeBase.demo.dto.field.FieldDTO;
+import CodeBase.demo.dto.field.FieldResponseDTO;
 import CodeBase.demo.model.Field;
 
 public class FieldMapper {
@@ -18,8 +19,8 @@ public class FieldMapper {
                 .build();
     }
 
-    public static FieldDTO toDto(Field entity) {
-        return FieldDTO.builder()
+    public static FieldResponseDTO toDto(Field entity) {
+        return FieldResponseDTO.builder()
                 .id(entity.getId())
                 .name(entity.getName())
                 .description(entity.getDescription())
