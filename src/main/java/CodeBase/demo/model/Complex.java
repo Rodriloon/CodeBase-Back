@@ -22,6 +22,10 @@ public class Complex extends BaseEntity {
     @OneToMany(mappedBy = "complex", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Field> fields = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Column(nullable = false)
     private String name;
 

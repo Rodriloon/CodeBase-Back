@@ -1,6 +1,8 @@
 package CodeBase.demo.exception;
 
 import java.time.LocalDateTime;
+
+import CodeBase.demo.exception.complex.ComplexNotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

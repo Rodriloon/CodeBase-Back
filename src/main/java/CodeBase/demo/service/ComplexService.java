@@ -1,7 +1,9 @@
 package CodeBase.demo.service;
 
-import CodeBase.demo.exception.ComplexNotFound;
+import CodeBase.demo.exception.complex.ComplexNotFound;
+import CodeBase.demo.exception.complex.ComplexesNotFound;
 import CodeBase.demo.model.Complex;
+import CodeBase.demo.model.User;
 import CodeBase.demo.repository.ComplexRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,11 @@ public class ComplexService {
 
     public List<Complex> getAllComplexes() {
         return complexRepository.findAll();
+    }
+
+    public List<Complex> getComplexesByUser(User user) {
+        if (user.getRole() != User.Role.ADMIN) throw new ComplexesNotFound();
+        return complexRepository.findByUserId(user.getId());
     }
 
     public Complex getComplex(Long id) {
