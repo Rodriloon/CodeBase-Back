@@ -1,4 +1,4 @@
-package CodeBase.demo.config;
+package CodeBase.demo.security.jwt;
 
 import CodeBase.demo.model.User;
 import CodeBase.demo.repository.UserRepository;

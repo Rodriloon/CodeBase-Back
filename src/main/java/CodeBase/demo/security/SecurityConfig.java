@@ -1,11 +1,12 @@
-package CodeBase.demo.config;
+package CodeBase.demo.security;
 
+import CodeBase.demo.security.jwt.JwtAuthFilter;
+import CodeBase.demo.security.jwt.JwtUtils;
 import CodeBase.demo.service.CustomOAuth2UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -44,16 +45,11 @@ public class SecurityConfig {
                                 res.sendError(HttpServletResponse.SC_UNAUTHORIZED)
                         )
                 )
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/",
-                                "/oauth2/**",
-                                "/login/**"
-                        ).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/complexes/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/complexes/**").permitAll() // TODO: hacer privado
-                        .anyRequest().authenticated()
-                )
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/", "/oauth2/**", "/login/**").permitAll();
+                    ComplexesSecurity.configure(auth);
+                    auth.anyRequest().authenticated();
+                })
                 .oauth2Login(oauth -> oauth
                         .userInfoEndpoint(userInfo ->
                                 userInfo.userService(customOAuth2UserService)
@@ -102,4 +98,3 @@ public class SecurityConfig {
         return source;
     }
 }
-
