@@ -4,16 +4,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 
-//Aca se especifican cuales endpoints de ComplexesControllers son públicos
-public class ComplexesSecurity {
-
+public class FieldSecurity {
     public static void configure(
             AuthorizeHttpRequestsConfigurer<HttpSecurity>
                     .AuthorizationManagerRequestMatcherRegistry auth
     ) {
         auth
-                .requestMatchers(HttpMethod.GET, "/api/v1/complexes/*").permitAll();
+                .requestMatchers(HttpMethod.GET, "/api/v1/fields/*").permitAll();
 
     }
 }
-

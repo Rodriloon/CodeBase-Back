@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/", "/oauth2/**", "/login/**").permitAll();
                     ComplexesSecurity.configure(auth);
+                    FieldSecurity.configure(auth);
                     auth.anyRequest().authenticated();
                 })
                 .oauth2Login(oauth -> oauth
