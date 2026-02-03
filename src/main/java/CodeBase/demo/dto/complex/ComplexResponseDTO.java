@@ -1,7 +1,9 @@
 package CodeBase.demo.dto.complex;
 
-import jakarta.validation.constraints.NotBlank;
+import CodeBase.demo.dto.field.FieldResponseDTO;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -9,11 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class ComplexResponseDTO {
-
     private Long id;
-
-    @NotBlank(message = "El nombre de la cancha es obligatorio")
     private String name;
-
     private String location;
+    private List<FieldResponseDTO> fields;
 }

@@ -6,8 +6,6 @@ import CodeBase.demo.model.Field;
 
 public class FieldMapper {
 
-    private FieldMapper() {}
-
     public static Field toEntity(FieldDTO dto) {
         return Field.builder()
                 .name(dto.getName())
@@ -28,6 +26,19 @@ public class FieldMapper {
                 .surface(entity.getSurface())
                 .isIndoor(entity.isIndoor())
                 .status(entity.getStatus())
+                .build();
+    }
+
+    public static FieldResponseDTO toDtoWithComplex(Field entity) {
+        return FieldResponseDTO.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .capacity(entity.getCapacity())
+                .surface(entity.getSurface())
+                .isIndoor(entity.isIndoor())
+                .status(entity.getStatus())
+                .complex(ComplexMapper.toDto(entity.getComplex()))
                 .build();
     }
 }

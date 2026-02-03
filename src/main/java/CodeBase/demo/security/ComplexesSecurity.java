@@ -12,6 +12,9 @@ public class ComplexesSecurity {
                     .AuthorizationManagerRequestMatcherRegistry auth
     ) {
         auth
+                // privados
+                .requestMatchers(HttpMethod.GET, "/api/v1/complexes/me").authenticated()
+                // públicos, debe ir después de /me
                 .requestMatchers(HttpMethod.GET, "/api/v1/complexes/*").permitAll();
 
     }

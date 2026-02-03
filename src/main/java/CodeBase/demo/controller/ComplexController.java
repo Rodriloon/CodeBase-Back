@@ -2,10 +2,6 @@ package CodeBase.demo.controller;
 
 import CodeBase.demo.dto.complex.ComplexDTO;
 import CodeBase.demo.dto.complex.ComplexResponseDTO;
-import CodeBase.demo.dto.field.FieldResponseDTO;
-import CodeBase.demo.mapper.ComplexMapper;
-import CodeBase.demo.mapper.FieldMapper;
-import CodeBase.demo.model.Complex;
 import CodeBase.demo.model.User;
 import CodeBase.demo.service.ComplexService;
 import jakarta.validation.Valid;
@@ -28,24 +24,24 @@ public class ComplexController {
     }
 
     @PostMapping
-    public ResponseEntity<ComplexResponseDTO> create(@Valid @RequestBody ComplexDTO dto) {
-        Complex complex = ComplexMapper.toEntity(dto);
-        Complex saved = complexService.create(complex);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ComplexMapper.toDto(saved));
+    public ResponseEntity<ComplexResponseDTO> create(
+            @AuthenticationPrincipal User user,
+            @Valid @RequestBody ComplexDTO complexDto) {
+        ComplexResponseDTO response = complexService.create(user, complexDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<ComplexResponseDTO>> getComplexesByUser(@AuthenticationPrincipal User user) {
-        List<ComplexResponseDTO> complex = complexService.getComplexesByUser(user).
-                stream()
-                .map(ComplexMapper::toDto)
-                .toList();
-        return ResponseEntity.ok(complex);
+    @GetMapping("/me")
+    public ResponseEntity<List<ComplexResponseDTO>> getComplexesByAdmin(
+            @AuthenticationPrincipal User user) {
+
+        List<ComplexResponseDTO> complexes = complexService.getComplexesByAdmin(user);
+        return ResponseEntity.ok(complexes);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ComplexResponseDTO> getComplex(@PathVariable Long id) {
-        ComplexResponseDTO complex = ComplexMapper.toDto(complexService.getComplex(id));
+        ComplexResponseDTO complex = complexService.getComplex(id);
         return ResponseEntity.ok(complex);
     }
 

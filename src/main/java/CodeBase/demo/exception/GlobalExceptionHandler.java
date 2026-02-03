@@ -3,6 +3,7 @@ package CodeBase.demo.exception;
 import java.time.LocalDateTime;
 
 import CodeBase.demo.exception.complex.ComplexNotFound;
+import CodeBase.demo.exception.user.ForbiddenOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,6 +22,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ComplexNotFound.class)
     public ResponseEntity<ErrorResponse> handleComplexNotFound(ComplexNotFound ex) {
         return buildError(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(ForbiddenOperation.class)
+    public ResponseEntity<ErrorResponse> handleForbiddenOperation(ComplexNotFound ex) {
+        return buildError(HttpStatus.FORBIDDEN, ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

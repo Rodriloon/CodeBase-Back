@@ -16,7 +16,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class FieldDTO {
-
     @NotBlank(message = "El nombre de la cancha es obligatorio")
     private String name;
     
@@ -31,4 +30,5 @@ public class FieldDTO {
     private boolean isIndoor;
     
     private Field.FieldStatus status;
+    private Long complexId;
 }

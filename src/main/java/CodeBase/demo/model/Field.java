@@ -9,6 +9,9 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "fields")
 @Getter
@@ -23,6 +26,9 @@ public class Field extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "complex_id", nullable = false)
     private Complex complex;
+
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reservation> reservations = new ArrayList<>();
 
     private String name;
     private String description;
